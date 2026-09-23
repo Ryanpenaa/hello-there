@@ -1,29 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import {
   BookOpen,
-  Car,
   CheckCircle2,
   ChevronDown,
-  CircleDollarSign,
+  Circle,
   Droplets,
-  ExternalLink,
   Gauge,
+  ListVideo,
+  Menu,
   Paintbrush,
   PlayCircle,
   ShieldCheck,
   Sparkles,
   Video,
   Wrench,
+  X,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Lava Jato do Diogo | Estrutura do Curso" },
+      { title: "Lava Jato do Diogo | Área de Membros" },
       {
         name: "description",
         content:
-          "Estrutura inicial do Curso Lava Jato do Diogo, organizada a partir dos vídeos reais já gravados.",
+          "Área de membros do Lava Jato do Diogo com os vídeos organizados por processo.",
       },
     ],
   }),
@@ -31,450 +33,706 @@ export const Route = createFileRoute("/")({
 });
 
 type Lesson = {
+  key: string;
   title: string;
-  url: string;
-  note?: string;
+  fileName: string;
+  driveId: string;
+  description: string;
+  duplicate?: boolean;
 };
 
-type CourseModule = {
+type Module = {
+  key: string;
   number: string;
   title: string;
   description: string;
-  Icon: typeof Wrench;
+  icon: typeof Wrench;
   lessons: Lesson[];
 };
 
-const driveFolder =
-  "https://drive.google.com/drive/folders/1QWxvHF4LGyFiPyCHGDZLBCWTyM5_CzPc";
-
-const modules: CourseModule[] = [
+const modules: Module[] = [
   {
+    key: "visao-geral",
     number: "01",
     title: "Visão geral do serviço",
     description:
-      "Uma aula para apresentar ao aluno como funciona um serviço completo e o nível de detalhe esperado em um lava jato profissional.",
-    Icon: Car,
+      "Uma visão do atendimento completo para o aluno entender a sequência geral antes de entrar nos processos específicos.",
+    icon: BookOpen,
     lessons: [
       {
+        key: "servico-completo",
         title: "Serviço completo de lavagem e detalhamento",
-        url: "https://drive.google.com/file/d/1RVWsJXW2JIVPR5HzHoFizLZitZU74Tvk/view?usp=drivesdk",
-        note: "Vídeo comercial que percorre o processo interno e externo.",
+        fileName: "b2f547b2-aa9c-42ff-990d-e195e39d795c.mp4",
+        driveId: "1RVWsJXW2JIVPR5HzHoFizLZitZU74Tvk",
+        description:
+          "Vídeo de apresentação de um serviço completo, mostrando etapas internas e externas e o nível de detalhe do atendimento.",
       },
     ],
   },
   {
+    key: "higienizacao-interna",
     number: "02",
     title: "Higienização interna",
     description:
-      "O maior bloco de conteúdo já gravado: bancos, teto, carpetes, frestas, extração e situações de sujeira pesada.",
-    Icon: Droplets,
+      "Bancos, teto, carpetes, frestas, extração, sujeira pesada e formas diferentes de executar a limpeza interna.",
+    icon: Droplets,
     lessons: [
       {
+        key: "banco-completo",
         title: "Higienização completa de banco",
-        url: "https://drive.google.com/file/d/1dXnJAYEWtpv1jDenG53hMc2H1lG4pfye/view?usp=drivesdk",
+        fileName: "7167b98f-6702-4a99-8d80-963b5fb2857e.mp4",
+        driveId: "1dXnJAYEWtpv1jDenG53hMc2H1lG4pfye",
+        description:
+          "Aplicação do produto, escovação mecânica, extração e acabamento do banco removido do veículo.",
       },
       {
-        title: "Limpeza do teto do veículo",
-        url: "https://drive.google.com/file/d/11BtzaDaLUZmzlw298XY5Y0-i4-GLCJQi/view?usp=drivesdk",
-      },
-      {
+        key: "banco-sem-compressor",
         title: "Limpeza de banco sem compressor",
-        url: "https://drive.google.com/file/d/1RuE2Fxvm-CeddFlJyML7LQhBwJRhANNP/view?usp=drivesdk",
+        fileName: "332b3c3d-f6b2-4b04-b206-99863ffb0dbf.mp4",
+        driveId: "1RuE2Fxvm-CeddFlJyML7LQhBwJRhANNP",
+        description:
+          "Alternativa de higienização para quem ainda não possui compressor, usando borrifador manual e escovação.",
       },
       {
+        key: "extracao-banco",
         title: "Extração de água e sujeira do banco",
-        url: "https://drive.google.com/file/d/1zSD1BzFtWhxL5qhmtPShjxJ8KrFUoCOt/view?usp=drivesdk",
+        fileName: "9cd14fc9-a287-4603-afda-b0a6a53a24a9.mp4",
+        driveId: "1zSD1BzFtWhxL5qhmtPShjxJ8KrFUoCOt",
+        description:
+          "Demonstração prática da extração por partes para retirar sujeira e reduzir excesso de água na espuma.",
       },
       {
-        title: "Tratamento de veículo contaminado por óleo",
-        url: "https://drive.google.com/file/d/1hl3vnw--_Wdkj2hFhnpq55-7aXwZMdPr/view?usp=drivesdk",
+        key: "teto",
+        title: "Limpeza do teto do veículo",
+        fileName: "13635d6d-b4a9-4f05-a53c-3096b6fb45eb.mp4",
+        driveId: "11BtzaDaLUZmzlw298XY5Y0-i4-GLCJQi",
+        description:
+          "Higienização do forro do teto com aplicação controlada e cuidado para não danificar ou descolar o tecido.",
       },
       {
+        key: "oleo-interno",
+        title: "Tratamento de interior contaminado por óleo",
+        fileName: "f3a65698-e2ed-457c-8d3b-16262ed26516.mp4",
+        driveId: "1hl3vnw--_Wdkj2hFhnpq55-7aXwZMdPr",
+        description:
+          "Diagnóstico de um interior contaminado por óleo, com plano de aspiração, desengraxe, limpeza e tratamento do odor.",
+      },
+      {
+        key: "vapor-carpete",
         title: "Limpeza a vapor do carpete",
-        url: "https://drive.google.com/file/d/1ckvlhDef3T_mwU6HSSJH6qtd3Ccq4THL/view?usp=drivesdk",
+        fileName: "0b16206e-5a62-44e0-9a8a-0fd1c5575b9f.mp4",
+        driveId: "1ckvlhDef3T_mwU6HSSJH6qtd3Ccq4THL",
+        description:
+          "Demonstração visual da limpeza de carpete com vapor ou espuma e o resultado final da superfície.",
       },
       {
+        key: "escovacao-carpete",
         title: "Escovação mecânica de carpete",
-        url: "https://drive.google.com/file/d/1ySrwEzRHYvkZXI8FMk3WyE7xDpXKHkWK/view?usp=drivesdk",
+        fileName: "962c6669-3b45-4859-bc9b-7aee1e7a8f54.mp4",
+        driveId: "1ySrwEzRHYvkZXI8FMk3WyE7xDpXKHkWK",
+        description:
+          "Uso de furadeira com escova circular para soltar sujeira incrustada antes da aspiração ou extração.",
       },
       {
+        key: "aspiracao-frestas",
         title: "Aspiração de frestas do carpete",
-        url: "https://drive.google.com/file/d/1ld5JAB79HzeSnK6ItsmfSuSLze4TQLa-/view?usp=drivesdk",
+        fileName: "a5507a09-5bd0-4a2f-a871-3cab14c9420d.mp4",
+        driveId: "1ld5JAB79HzeSnK6ItsmfSuSLze4TQLa-",
+        description:
+          "Limpeza com bocal fino entre trilhos, cantos e áreas de difícil acesso do assoalho.",
       },
       {
+        key: "carpete-sob-banco",
         title: "Limpeza de carpete sob o banco",
-        url: "https://drive.google.com/file/d/1cUcYSwm3ImNtPHuxjYWFmAb_OQrHiu0p/view?usp=drivesdk",
+        fileName: "34ecad5c-b9ce-43da-8831-7b14742014a1.mp4",
+        driveId: "1cUcYSwm3ImNtPHuxjYWFmAb_OQrHiu0p",
+        description:
+          "Combinação de ação mecânica e química em uma área estreita e normalmente esquecida.",
       },
     ],
   },
   {
+    key: "motor",
     number: "03",
     title: "Limpeza e acabamento de motor",
     description:
-      "Do processo químico até a remoção de barro, secagem e acabamento visual dos plásticos do cofre do motor.",
-    Icon: Wrench,
+      "O processo completo de limpeza do compartimento do motor: ação química, sujeira pesada, enxágue, secagem e acabamento.",
+    icon: Wrench,
     lessons: [
       {
+        key: "motor-detalhado",
         title: "Limpeza detalhada de motor",
-        url: "https://drive.google.com/file/d/1eG92TiyCPO_j2IdFSvXU25zN2vEPO8aj/view?usp=drivesdk",
+        fileName: "3ee47e99-9988-4249-bae3-3c4efa20d0a5.mp4",
+        driveId: "1eG92TiyCPO_j2IdFSvXU25zN2vEPO8aj",
+        description:
+          "Sequência completa com produtos, tempo de ação, escovação dos pontos difíceis, enxágue e secagem.",
       },
       {
+        key: "acao-quimica",
         title: "Ação química na limpeza do motor",
-        url: "https://drive.google.com/file/d/1OMbbYvqxB-k4n-k-b3l4vGBTOT6szmBP/view?usp=drivesdk",
+        fileName: "598c4db8-1ad1-4d29-96d3-fd5b0b49b171.mp4",
+        driveId: "1OMbbYvqxB-k4n-k-b3l4vGBTOT6szmBP",
+        description:
+          "Demonstração da reação entre os produtos aplicados e a sujeira no compartimento do motor.",
       },
       {
+        key: "barro-motor",
         title: "Remoção de barro do motor",
-        url: "https://drive.google.com/file/d/1s7m8NU4ZoZp8OCxLqTtzKVFS62RVPxBo/view?usp=drivesdk",
+        fileName: "e6d015d0-c4b6-4a47-a603-ff9a7e9616f2.mp4",
+        driveId: "1s7m8NU4ZoZp8OCxLqTtzKVFS62RVPxBo",
+        description:
+          "Aplicação e escovação para desprender barro e sujeira pesada do compartimento do motor.",
       },
       {
+        key: "acabamento-plasticos",
         title: "Acabamento de plásticos do motor",
-        url: "https://drive.google.com/file/d/16RH0IXYH-XJXeWUg7WTU3C6Osl_fzak3/view?usp=drivesdk",
+        fileName: "919e7923-aa50-44e1-a1ec-aae97c5a831f.mp4",
+        driveId: "16RH0IXYH-XJXeWUg7WTU3C6Osl_fzak3",
+        description:
+          "Etapa de acabamento para renovar visualmente plásticos, reservatórios e áreas próximas ao para-brisa.",
       },
     ],
   },
   {
+    key: "polimento",
     number: "04",
     title: "Polimento e correção de pintura",
     description:
-      "Conteúdo de corte, refino, lustro, controle da politriz e preparação da superfície antes do acabamento.",
-    Icon: Paintbrush,
+      "Treino de politriz, corte, refino, lustro, preparação da superfície e demonstrações de antes e depois reunidos no mesmo processo.",
+    icon: Paintbrush,
     lessons: [
       {
+        key: "polimento-duas-etapas",
         title: "Polimento técnico em duas etapas",
-        url: "https://drive.google.com/file/d/1QuZeaZJYpna_xJAePKNQVT42kzFN9szI/view?usp=drivesdk",
+        fileName: "88ecf91f-e92a-4d9e-be44-1c0bab0964f3.mp4",
+        driveId: "1QuZeaZJYpna_xJAePKNQVT42kzFN9szI",
+        description:
+          "Corte com politriz rotativa seguido de acabamento com roto-orbital e conferência de hologramas.",
       },
       {
+        key: "treino-politriz",
         title: "Treinamento de operador de politriz",
-        url: "https://drive.google.com/file/d/1QX01-9NJf-oX2uTtcrUftivCcX1nJ2cg/view?usp=drivesdk",
+        fileName: "cea76b93-6976-4a14-a19f-44e6fa5069de.mp4",
+        driveId: "1QX01-9NJf-oX2uTtcrUftivCcX1nJ2cg",
+        description:
+          "Treinamento prático de um iniciante no controle da politriz rotativa, velocidade e passadas.",
       },
       {
+        key: "refino-lustro",
         title: "Refino e lustro comercial",
-        url: "https://drive.google.com/file/d/1QFM5RdpF33iOxD-bWc0EdC_P-dtohW4x/view?usp=drivesdk",
+        fileName: "6381753f-a6a6-4613-888b-ea79f24ec618.mp4",
+        driveId: "1QFM5RdpF33iOxD-bWc0EdC_P-dtohW4x",
+        description:
+          "Continuação do processo com boina de espuma, refino, lustro e comparação do brilho final.",
       },
       {
-        title: "Preparação da pintura antes do polimento",
-        url: "https://drive.google.com/file/d/1-zpnwVrudWsN9PSpEAZgOimWCUl4xrS8/view?usp=drivesdk",
-        note: "No relatório, a técnica exata desse clipe não pôde ser confirmada.",
+        key: "preparacao-tampa",
+        title: "Preparação da superfície para polimento",
+        fileName: "16286bfd-1f1f-4200-948c-6e1a7e1bd956.mp4",
+        driveId: "1-zpnwVrudWsN9PSpEAZgOimWCUl4xrS8",
+        description:
+          "Vídeo de preparação da tampa traseira. O relatório não confirma com segurança se a técnica mostrada é lixamento ou descontaminação.",
       },
       {
+        key: "preparacao-tampa-copia",
+        title: "Preparação da superfície — cópia 2",
+        fileName: "16286bfd-1f1f-4200-948c-6e1a7e1bd956.mp4",
+        driveId: "12rF5dsuiJXXLj1Fog6YJ9whIQCFItmL2",
+        description:
+          "Segundo arquivo do Drive com o mesmo nome, duração, tamanho e conteúdo visual da aula anterior.",
+        duplicate: true,
+      },
+      {
+        key: "polimento-comercial",
         title: "Polimento comercial — antes e depois",
-        url: "https://drive.google.com/file/d/15pqI-6Nt01GwRg4pdhi3sH9SJfe30mML/view?usp=drivesdk",
+        fileName: "303a5206-8428-47dc-9354-84981e3ee99b.mp4",
+        driveId: "15pqI-6Nt01GwRg4pdhi3sH9SJfe30mML",
+        description:
+          "Demonstração visual do polimento comercial com área delimitada, aplicação do composto e contraste final.",
       },
     ],
   },
   {
+    key: "protecao-pintura",
     number: "05",
     title: "Proteção e acabamento da pintura",
     description:
-      "Vitrificação, descontaminação, enceramento, teste de repelência e acabamento final da proteção.",
-    Icon: ShieldCheck,
+      "Descontaminação, enceramento, vitrificação, remoção do excesso e prova visual da repelência.",
+    icon: ShieldCheck,
     lessons: [
       {
+        key: "vitrificador",
         title: "Aplicação de vitrificador na pintura",
-        url: "https://drive.google.com/file/d/1LACAJnhaa1S1iJYaesp2ifQGZGtyVDex/view?usp=drivesdk",
+        fileName: "aa643e67-0cdf-42f7-8904-ae77a56af195.mp4",
+        driveId: "1LACAJnhaa1S1iJYaesp2ifQGZGtyVDex",
+        description:
+          "Aplicação uniforme do vitrificador e orientação de tempo de espera antes da remoção.",
       },
       {
+        key: "descontaminacao-enceramento",
         title: "Descontaminação e enceramento",
-        url: "https://drive.google.com/file/d/1IhNfu0EylyJZi_Z6lWB_qPM7cIVbdc9E/view?usp=drivesdk",
+        fileName: "f0596d0d-d255-4f22-ab6a-b8f06102b325.mp4",
+        driveId: "1IhNfu0EylyJZi_Z6lWB_qPM7cIVbdc9E",
+        description:
+          "Descontaminação da pintura seguida de aplicação de cera e acabamento com microfibra.",
       },
       {
+        key: "repelencia-enceramento",
         title: "Teste de repelência após enceramento",
-        url: "https://drive.google.com/file/d/1jMaD2Ff2oyOA5mhMfD50kkz6bm-uyXaK/view?usp=drivesdk",
+        fileName: "bdb89b40-f749-4cbb-b78b-6abc6ae7002e.mp4",
+        driveId: "1A7_NXsfzx6Wc3PM_H8fBeNB4eJK3HDcI",
+        description:
+          "Comparação visual entre uma área tratada e outra sem tratamento para mostrar o efeito hidrofóbico.",
       },
       {
+        key: "remocao-vitrificacao",
         title: "Remoção do excesso da vitrificação",
-        url: "https://drive.google.com/file/d/15pqI-6Nt01GwRg4pdhi3sH9SJfe30mML/view?usp=drivesdk",
+        fileName: "baecb6f2-1bc1-4f6f-b6f6-6f9396f3d0e9.mp4",
+        driveId: "1frDvk8EUh2Rttow-e4FSBu5vnD424zQ2",
+        description:
+          "Etapa final da vitrificação com toalha úmida, microfibra seca e demonstração do brilho final.",
       },
     ],
   },
   {
+    key: "vidros",
     number: "06",
     title: "Vidros e repelência de chuva",
     description:
-      "Serviços rápidos para aumentar o ticket: cristalização e aplicação de repelente no para-brisa.",
-    Icon: Sparkles,
+      "Aplicações específicas para o para-brisa que funcionam como serviço adicional dentro do lava jato.",
+    icon: Sparkles,
     lessons: [
       {
+        key: "cristalizacao-vidro",
         title: "Cristalização de vidro",
-        url: "https://drive.google.com/file/d/1-eqR8I5jRLkEosSMH9YyYYCswFuvQ1Qi/view?usp=drivesdk",
+        fileName: "d9831137-61ad-4ae7-ba0b-18f226a1a859.mp4",
+        driveId: "1-eqR8I5jRLkEosSMH9YyYYCswFuvQ1Qi",
+        description:
+          "Aplicação do produto no para-brisa, movimentos cruzados, tempo de espera e remoção do excesso.",
       },
       {
+        key: "repelente-chuva",
         title: "Aplicação de repelente de chuva no vidro",
-        url: "https://drive.google.com/file/d/1jMaD2Ff2oyOA5mhMfD50kkz6bm-uyXaK/view?usp=drivesdk",
+        fileName: "2bca220e-1852-48e3-9988-84bf6b710778.mp4",
+        driveId: "1jMaD2Ff2oyOA5mhMfD50kkz6bm-uyXaK",
+        description:
+          "Aplicação de repelente de chuva no para-brisa com demonstração do procedimento e do valor do serviço.",
       },
     ],
   },
   {
+    key: "farois",
     number: "07",
     title: "Restauração de faróis",
     description:
-      "Uma sequência praticamente pronta: correção do lixamento, progressão das lixas e restauração química final.",
-    Icon: Gauge,
+      "A sequência completa de correção: remoção das marcas, progressão das lixas e restauração química final.",
+    icon: Gauge,
     lessons: [
       {
+        key: "correcao-lixamento",
         title: "Correção do lixamento de farol",
-        url: "https://drive.google.com/file/d/1TGEwcUuqodVrAxsIvykDiqWNaAq-i-5n/view?usp=drivesdk",
+        fileName: "bb77d21d-396d-4329-bca6-20ec4a555998.mp4",
+        driveId: "1TGEwcUuqodVrAxsIvykDiqWNaAq-i-5n",
+        description:
+          "Correção das marcas do lixamento anterior com mudança de sentido e acabamento das áreas estreitas.",
       },
       {
+        key: "progressao-lixas",
         title: "Progressão de lixas na restauração de farol",
-        url: "https://drive.google.com/file/d/18wb6OEZSnQdMqbN_wI5H-oqGkysxoS-w/view?usp=drivesdk",
+        fileName: "f4cb3371-6b80-43ca-8144-1e0d340e792f.mp4",
+        driveId: "18wb6OEZSnQdMqbN_wI5H-oqGkysxoS-w",
+        description:
+          "Evolução do lixamento para deixar a lente uniforme antes da aplicação do polímero.",
       },
       {
+        key: "restauracao-quimica",
         title: "Restauração química de farol",
-        url: "https://drive.google.com/file/d/1K5XzGrvg7AWXjcStsn1znWvANs4j0lBJ/view?usp=drivesdk",
+        fileName: "c6e25da1-cf6d-4037-abcd-065592b4d5a5.mp4",
+        driveId: "1K5XzGrvg7AWXjcStsn1znWvANs4j0lBJ",
+        description:
+          "Aplicação do vapor de polímero sobre a lente para recuperar a transparência do farol.",
       },
     ],
   },
 ];
 
-const missingLessons = [
-  "Apresentação do Diogo e visão do curso",
-  "Como começar um lava jato em casa",
-  "Equipamentos essenciais para começar",
-  "Produtos, diluições e cuidados de segurança",
-  "Lavagem simples do início ao acabamento",
-  "Precificação, adicionais e primeiros clientes",
-];
-
-const totalLessons = modules.reduce(
-  (total, module) => total + module.lessons.length,
-  0,
+const allLessons = modules.flatMap((module) =>
+  module.lessons.map((lesson) => ({ ...lesson, moduleKey: module.key })),
 );
 
-function Index() {
-  return (
-    <main className="min-h-screen overflow-hidden bg-[#070b12] text-white">
-      <section className="relative border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.18),transparent_34%),radial-gradient(circle_at_90%_10%,rgba(14,165,233,0.10),transparent_28%)]" />
-        <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-300">
-            <Video className="h-3.5 w-3.5" />
-            Estrutura inicial do curso
-          </div>
+function getPreviewUrl(driveId: string) {
+  return `https://drive.google.com/file/d/${driveId}/preview`;
+}
 
-          <div className="grid items-end gap-10 lg:grid-cols-[1.25fr_0.75fr]">
-            <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.28em] text-white/45">
+function Index() {
+  const [selectedKey, setSelectedKey] = useState(allLessons[0].key);
+  const [openModules, setOpenModules] = useState<string[]>([
+    modules[0].key,
+    modules[1].key,
+  ]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [completed, setCompleted] = useState<string[]>([]);
+
+  const selectedLesson = useMemo(
+    () => allLessons.find((lesson) => lesson.key === selectedKey) ?? allLessons[0],
+    [selectedKey],
+  );
+
+  const selectedModule = useMemo(
+    () => modules.find((module) => module.key === selectedLesson.moduleKey) ?? modules[0],
+    [selectedLesson.moduleKey],
+  );
+
+  const lessonNumber =
+    selectedModule.lessons.findIndex((lesson) => lesson.key === selectedLesson.key) + 1;
+
+  const completedCount = completed.length;
+  const progress = Math.round((completedCount / allLessons.length) * 100);
+
+  function toggleModule(moduleKey: string) {
+    setOpenModules((current) =>
+      current.includes(moduleKey)
+        ? current.filter((key) => key !== moduleKey)
+        : [...current, moduleKey],
+    );
+  }
+
+  function selectLesson(lessonKey: string) {
+    setSelectedKey(lessonKey);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function toggleCompleted() {
+    setCompleted((current) =>
+      current.includes(selectedLesson.key)
+        ? current.filter((key) => key !== selectedLesson.key)
+        : [...current, selectedLesson.key],
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-[#070b12] text-white">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#070b12]/95 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-[1500px] items-center gap-4 px-4 sm:px-6">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 lg:hidden"
+            aria-label="Abrir aulas"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500 text-white">
+              <Video className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-black tracking-tight sm:text-base">
                 Lava Jato do Diogo
               </p>
-              <h1 className="max-w-4xl text-4xl font-black leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
-                Transformando os vídeos já gravados em um{" "}
-                <span className="text-blue-400">curso de verdade.</span>
-              </h1>
-              <p className="mt-6 max-w-2xl text-base leading-7 text-white/60 sm:text-lg">
-                Os vídeos do Drive foram reorganizados por assunto para criar uma
-                sequência lógica de aprendizado. Esta página é o esqueleto do curso e
-                pode evoluir depois para área de membros, página de apresentação ou
-                roteiro de gravação.
+              <p className="truncate text-[11px] uppercase tracking-[0.16em] text-white/35">
+                Área de membros
               </p>
+            </div>
+          </div>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="#modulos"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-500 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-blue-400"
-                >
-                  <BookOpen className="h-4 w-4" />
-                  Ver módulos
-                </a>
-                <a
-                  href={driveFolder}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-5 py-3.5 text-sm font-semibold text-white/85 transition hover:bg-white/10"
-                >
-                  Abrir pasta do Drive
-                  <ExternalLink className="h-4 w-4" />
-                </a>
+          <div className="ml-auto hidden min-w-[220px] items-center gap-3 sm:flex">
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full rounded-full bg-blue-500 transition-all"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <span className="text-xs font-semibold text-white/45">{progress}%</span>
+          </div>
+        </div>
+      </header>
+
+      <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[360px_minmax(0,1fr)]">
+        <aside className="hidden border-r border-white/10 bg-[#090e16] lg:block">
+          <div className="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto p-4">
+            <CourseSidebar
+              selectedKey={selectedKey}
+              openModules={openModules}
+              completed={completed}
+              onSelect={selectLesson}
+              onToggleModule={toggleModule}
+            />
+          </div>
+        </aside>
+
+        <section className="min-w-0 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-5 flex flex-wrap items-center gap-2 text-xs font-semibold">
+              <span className="rounded-full bg-blue-500/10 px-3 py-1.5 text-blue-300">
+                Módulo {selectedModule.number}
+              </span>
+              <span className="text-white/30">•</span>
+              <span className="text-white/45">{selectedModule.title}</span>
+              {selectedLesson.duplicate && (
+                <span className="rounded-full bg-amber-400/10 px-3 py-1.5 text-amber-300">
+                  arquivo duplicado
+                </span>
+              )}
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-black/30">
+              <div className="aspect-video w-full">
+                <iframe
+                  key={selectedLesson.driveId}
+                  src={getPreviewUrl(selectedLesson.driveId)}
+                  title={selectedLesson.title}
+                  className="h-full w-full"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <Stat value="28" label="vídeos únicos" />
-              <Stat value="7" label="módulos com material" />
-              <Stat value={String(totalLessons)} label="aulas organizadas" />
-              <Stat value="6" label="aulas sugeridas" />
-            </div>
-          </div>
-        </div>
-      </section>
+            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-start">
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-400">
+                  Aula {String(lessonNumber).padStart(2, "0")}
+                </p>
+                <h1 className="text-2xl font-black leading-tight tracking-tight sm:text-3xl">
+                  {selectedLesson.title}
+                </h1>
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-white/55 sm:text-base sm:leading-7">
+                  {selectedLesson.description}
+                </p>
+              </div>
 
-      <section id="modulos" className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mb-9 max-w-3xl">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-300">
-            <CheckCircle2 className="h-4 w-4" />
-            Conteúdo que já existe
-          </div>
-          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
-            Módulos montados com os vídeos do Drive
-          </h2>
-          <p className="mt-3 leading-7 text-white/55">
-            Clique em cada módulo para abrir as aulas. Os botões levam direto ao
-            vídeo correspondente no Google Drive.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          {modules.map((module, moduleIndex) => {
-            const Icon = module.Icon;
-            return (
-              <details
-                key={module.number}
-                open={moduleIndex === 0}
-                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035]"
+              <button
+                type="button"
+                onClick={toggleCompleted}
+                className={
+                  completed.includes(selectedLesson.key)
+                    ? "inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm font-bold text-emerald-300"
+                    : "inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white/70 transition hover:bg-white/10"
+                }
               >
-                <summary className="flex cursor-pointer list-none items-center gap-4 p-5 sm:p-6">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-blue-400/20 bg-blue-500/10 text-blue-300">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-1 flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-400">
-                        Módulo {module.number}
-                      </span>
-                      <span className="rounded-full bg-white/5 px-2 py-0.5 text-[11px] font-medium text-white/45">
-                        {module.lessons.length}{" "}
-                        {module.lessons.length === 1 ? "aula" : "aulas"}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-bold text-white sm:text-xl">
-                      {module.title}
-                    </h3>
-                    <p className="mt-1 hidden max-w-3xl text-sm leading-6 text-white/45 sm:block">
-                      {module.description}
-                    </p>
-                  </div>
-                  <ChevronDown className="h-5 w-5 shrink-0 text-white/35 transition-transform duration-200 group-open:rotate-180" />
-                </summary>
+                {completed.includes(selectedLesson.key) ? (
+                  <CheckCircle2 className="h-4 w-4" />
+                ) : (
+                  <Circle className="h-4 w-4" />
+                )}
+                {completed.includes(selectedLesson.key)
+                  ? "Aula concluída"
+                  : "Marcar como concluída"}
+              </button>
+            </div>
 
-                <div className="border-t border-white/10 px-4 py-3 sm:px-6 sm:py-4">
-                  <p className="mb-3 text-sm leading-6 text-white/45 sm:hidden">
-                    {module.description}
-                  </p>
-                  <div className="divide-y divide-white/[0.08]">
-                    {module.lessons.map((lesson, lessonIndex) => (
-                      <div
-                        key={lesson.title}
-                        className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center"
-                      >
-                        <div className="flex min-w-0 flex-1 items-start gap-3">
-                          <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-xs font-bold text-white/45">
-                            {String(lessonIndex + 1).padStart(2, "0")}
-                          </div>
-                          <div className="min-w-0">
-                            <p className="font-semibold text-white/90">
-                              {lesson.title}
-                            </p>
-                            {lesson.note && (
-                              <p className="mt-1 text-xs leading-5 text-amber-200/60">
-                                {lesson.note}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        <a
-                          href={lesson.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-semibold text-white/70 transition hover:border-blue-400/30 hover:bg-blue-500/10 hover:text-blue-300"
-                        >
-                          <PlayCircle className="h-4 w-4" />
-                          Abrir vídeo
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </details>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-white/[0.025]">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-amber-300">
-                <Video className="h-4 w-4" />
-                Próximas gravações
+            <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+              <div className="mb-2 flex items-center gap-2 text-sm font-bold text-white/85">
+                <ListVideo className="h-4 w-4 text-blue-400" />
+                Sobre este módulo
               </div>
-              <h2 className="text-3xl font-black tracking-tight">
-                O que falta para fechar o curso
-              </h2>
-              <p className="mt-4 leading-7 text-white/55">
-                O material atual é forte na execução prática. Estas aulas de ligação
-                deixam o treinamento mais fácil de acompanhar para quem está começando
-                do zero.
+              <p className="text-sm leading-6 text-white/50">
+                {selectedModule.description}
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              {missingLessons.map((lesson, index) => (
-                <div
-                  key={lesson}
-                  className="flex items-start gap-3 rounded-xl border border-white/10 bg-[#0b111b] p-4"
-                >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-400/10 text-xs font-black text-amber-300">
-                    {index + 1}
-                  </div>
-                  <p className="pt-1 text-sm font-medium leading-5 text-white/75">
-                    {lesson}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-        <div className="overflow-hidden rounded-3xl border border-blue-400/20 bg-gradient-to-br from-blue-500/15 via-white/[0.03] to-transparent p-6 sm:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div>
-              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-300">
-                <CircleDollarSign className="h-4 w-4" />
-                Próxima etapa
+            <div className="mt-8 lg:hidden">
+              <h2 className="mb-4 text-lg font-black">Aulas deste módulo</h2>
+              <div className="space-y-2">
+                {selectedModule.lessons.map((lesson, index) => (
+                  <LessonButton
+                    key={lesson.key}
+                    lesson={lesson}
+                    index={index}
+                    active={lesson.key === selectedKey}
+                    completed={completed.includes(lesson.key)}
+                    onClick={() => selectLesson(lesson.key)}
+                  />
+                ))}
               </div>
-              <h2 className="max-w-2xl text-3xl font-black tracking-tight sm:text-4xl">
-                Depois podemos transformar este esqueleto na página final do curso.
-              </h2>
-              <p className="mt-4 max-w-2xl leading-7 text-white/55">
-                A partir daqui dá para separar plano Básico e Profissional, incluir
-                benefícios, bônus, preço, provas sociais, checkout e os vídeos de
-                apresentação que ainda serão gravados.
-              </p>
             </div>
-            <a
-              href={driveFolder}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3.5 text-sm font-bold text-[#070b12] transition hover:bg-blue-50"
-            >
-              Conferir vídeos
-              <ExternalLink className="h-4 w-4" />
-            </a>
           </div>
-        </div>
+        </section>
+      </div>
 
-        <p className="mt-8 text-center text-xs leading-5 text-white/30">
-          Estrutura de organização do Curso Lava Jato do Diogo. Antes de publicar
-          instruções técnicas, confira diluições, equipamentos de proteção e orientações
-          oficiais dos fabricantes.
-        </p>
-      </section>
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-[70] lg:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/70"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Fechar menu"
+          />
+          <aside className="absolute inset-y-0 left-0 w-[min(92vw,380px)] overflow-y-auto border-r border-white/10 bg-[#090e16] p-4 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <p className="font-black">Conteúdo do curso</p>
+                <p className="mt-0.5 text-xs text-white/35">
+                  {allLessons.length} vídeos • {modules.length} módulos
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5"
+                aria-label="Fechar aulas"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <CourseSidebar
+              selectedKey={selectedKey}
+              openModules={openModules}
+              completed={completed}
+              onSelect={selectLesson}
+              onToggleModule={toggleModule}
+            />
+          </aside>
+        </div>
+      )}
     </main>
   );
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
+function CourseSidebar({
+  selectedKey,
+  openModules,
+  completed,
+  onSelect,
+  onToggleModule,
+}: {
+  selectedKey: string;
+  openModules: string[];
+  completed: string[];
+  onSelect: (lessonKey: string) => void;
+  onToggleModule: (moduleKey: string) => void;
+}) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
-      <div className="text-2xl font-black tracking-tight text-white sm:text-3xl">
-        {value}
+    <div>
+      <div className="mb-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+        <div className="flex items-center gap-2">
+          <PlayCircle className="h-4 w-4 text-blue-400" />
+          <p className="text-sm font-bold">Conteúdo do curso</p>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-white/40">
+          Todos os 29 arquivos do Drive estão aqui. Uma das aulas está marcada como
+          duplicada porque o próprio Drive possui duas cópias idênticas.
+        </p>
       </div>
-      <div className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-white/35">
-        {label}
+
+      <div className="space-y-2">
+        {modules.map((module) => {
+          const Icon = module.icon;
+          const isOpen = openModules.includes(module.key);
+          const doneInModule = module.lessons.filter((lesson) =>
+            completed.includes(lesson.key),
+          ).length;
+
+          return (
+            <div
+              key={module.key}
+              className="overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.025]"
+            >
+              <button
+                type="button"
+                onClick={() => onToggleModule(module.key)}
+                className="flex w-full items-center gap-3 px-3 py-3.5 text-left"
+              >
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-300">
+                  <Icon className="h-4 w-4" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-blue-400">
+                    Módulo {module.number}
+                  </p>
+                  <p className="truncate text-sm font-bold text-white/85">
+                    {module.title}
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-white/30">
+                    {doneInModule}/{module.lessons.length} concluídas
+                  </p>
+                </div>
+                <ChevronDown
+                  className={
+                    isOpen
+                      ? "h-4 w-4 shrink-0 rotate-180 text-white/35 transition-transform"
+                      : "h-4 w-4 shrink-0 text-white/35 transition-transform"
+                  }
+                />
+              </button>
+
+              {isOpen && (
+                <div className="border-t border-white/[0.08] p-2">
+                  <div className="space-y-1.5">
+                    {module.lessons.map((lesson, index) => (
+                      <LessonButton
+                        key={lesson.key}
+                        lesson={lesson}
+                        index={index}
+                        active={lesson.key === selectedKey}
+                        completed={completed.includes(lesson.key)}
+                        onClick={() => onSelect(lesson.key)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
+  );
+}
+
+function LessonButton({
+  lesson,
+  index,
+  active,
+  completed,
+  onClick,
+}: {
+  lesson: Lesson;
+  index: number;
+  active: boolean;
+  completed: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={
+        active
+          ? "flex w-full items-start gap-3 rounded-lg border border-blue-400/20 bg-blue-500/10 px-3 py-3 text-left"
+          : "flex w-full items-start gap-3 rounded-lg border border-transparent px-3 py-3 text-left transition hover:bg-white/[0.04]"
+      }
+    >
+      <div
+        className={
+          active
+            ? "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-blue-500 text-[10px] font-black text-white"
+            : "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-white/5 text-[10px] font-black text-white/35"
+        }
+      >
+        {completed ? <CheckCircle2 className="h-3.5 w-3.5" /> : index + 1}
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <p
+          className={
+            active
+              ? "text-xs font-bold leading-5 text-white"
+              : "text-xs font-semibold leading-5 text-white/65"
+          }
+        >
+          {lesson.title}
+        </p>
+        {lesson.duplicate && (
+          <span className="mt-1 inline-block rounded bg-amber-400/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-300">
+            duplicado
+          </span>
+        )}
+      </div>
+    </button>
   );
 }
