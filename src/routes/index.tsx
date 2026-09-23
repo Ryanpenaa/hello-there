@@ -70,13 +70,97 @@ const modules: Module[] = [
     ],
   },
   {
-    key: "higienizacao-interna",
+    key: "produtos-diluicoes",
     number: "02",
-    title: "Higienização interna",
+    title: "Produtos e diluições",
     description:
-      "Bancos, teto, carpetes, frestas, extração, sujeira pesada e formas diferentes de executar a limpeza interna.",
+      "Apresentação dos produtos utilizados no dia a dia, para que o aluno entenda o que cada produto faz antes de partir para a execução dos serviços.",
+    icon: Sparkles,
+    lessons: [
+      {
+        key: "produtos-01",
+        title: "Produtos e diluições — Parte 1",
+        fileName: "produtos 01.mp4",
+        driveId: "1Yj6gJHuaFXn7iAIIV2inNshCUwYxwtnW",
+        description:
+          "Primeira parte da explicação dos produtos utilizados no processo de limpeza e detalhamento.",
+      },
+      {
+        key: "produtos-02",
+        title: "Produtos e diluições — Parte 2",
+        fileName: "produtos 02.mp4",
+        driveId: "1bStEPp5bCYHtgx0wBVKpRx7cF_d2mQ7B",
+        description:
+          "Continuação da apresentação dos produtos e de suas aplicações no serviço.",
+      },
+      {
+        key: "produtos-03",
+        title: "Produtos e diluições — Parte 3",
+        fileName: "produtos 03.mp4",
+        driveId: "1j9u5nyw-IQ7_kVMgT81XgNb0MODCuG8Q",
+        description:
+          "Terceira parte da explicação prática sobre os produtos usados no lava jato.",
+      },
+      {
+        key: "produtos-04",
+        title: "Produtos e diluições — Parte 4",
+        fileName: "produtos 04.mp4",
+        driveId: "1vJiCGE3i3vj8loGOt74sSpD9yOaMKg31",
+        description:
+          "Fechamento do módulo de produtos, complementando a apresentação dos itens usados nos demais processos.",
+      },
+    ],
+  },
+  {
+    key: "limpeza-externa",
+    number: "03",
+    title: "Limpeza externa detalhada",
+    description:
+      "Limpeza externa por partes, começando pelas caixas de roda e chegando aos detalhes de grade e acabamento frontal.",
     icon: Droplets,
     lessons: [
+      {
+        key: "caixa-roda-01",
+        title: "Limpeza da caixa de roda — Parte 1",
+        fileName: "limpeza externa 01  + caixa de roda.mp4",
+        driveId: "1wErLfLg-6nxMyE0EzFqU3vxLKONIdUzL",
+        description:
+          "Primeira etapa da limpeza externa com foco na caixa de roda e remoção da sujeira acumulada.",
+      },
+      {
+        key: "caixa-roda-02",
+        title: "Limpeza da caixa de roda — Parte 2",
+        fileName: "limpeza externa 02  + caixa de roda.mp4",
+        driveId: "1nzHxsbau4leiAKzLzF_O-Yblc31Z8cqM",
+        description:
+          "Continuação da limpeza da caixa de roda e do processo externo ao redor da roda.",
+      },
+      {
+        key: "grade-frontal",
+        title: "Limpeza detalhada da grade frontal",
+        fileName: "limpeza externa detalhada, grade frontal.mp4",
+        driveId: "12FqRZ3g4pqg0AUE9YFQLKvngCMIia3td",
+        description:
+          "Limpeza detalhada da região frontal do veículo, trabalhando grade, cantos e áreas que exigem atenção manual.",
+      },
+    ],
+  },
+  {
+    key: "higienizacao-interna",
+    number: "04",
+    title: "Higienização interna",
+    description:
+      "Bancos, teto, portas, cintos, painel, carpetes, frestas, extração, sujeira pesada e formas diferentes de executar a limpeza interna.",
+    icon: Droplets,
+    lessons: [
+      {
+        key: "banco-etapa-completa",
+        title: "Limpeza completa do banco de pano — etapa completa",
+        fileName: "Vídeo de Ryan Pena.mp4",
+        driveId: "1gyRiwbeCapSPK-I8XRWeF474rbYC01I1",
+        description:
+          "Aula longa com o processo completo de limpeza de banco de tecido, reunindo as etapas em uma única execução.",
+      },
       {
         key: "banco-completo",
         title: "Higienização completa de banco",
@@ -108,6 +192,22 @@ const modules: Module[] = [
         driveId: "11BtzaDaLUZmzlw298XY5Y0-i4-GLCJQi",
         description:
           "Higienização do forro do teto com aplicação controlada e cuidado para não danificar ou descolar o tecido.",
+      },
+      {
+        key: "porta-cinto",
+        title: "Limpeza do forro da porta e cinto",
+        fileName: "limpeza interna porta + cinto.mp4",
+        driveId: "12g0uVDIrysVEu3_WEnD8KK9Sr04HVYKs",
+        description:
+          "Limpeza detalhada do forro da porta e do cinto como parte da higienização interna do veículo.",
+      },
+      {
+        key: "painel-detalhes",
+        title: "Limpeza do painel e detalhes internos",
+        fileName: "limpeza interna detalhes.mp4",
+        driveId: "1fdv4Bt0QUZ164H_4ooc0JB1uL_hsFQ8q",
+        description:
+          "Limpeza de painel, comandos, cantos e detalhes internos com trabalho manual de acabamento.",
       },
       {
         key: "oleo-interno",
@@ -153,12 +253,36 @@ const modules: Module[] = [
   },
   {
     key: "motor",
-    number: "03",
+    number: "05",
     title: "Limpeza e acabamento de motor",
     description:
-      "O processo completo de limpeza do compartimento do motor: ação química, sujeira pesada, enxágue, secagem e acabamento.",
+      "O processo completo de limpeza do compartimento do motor: aplicação, ação química, escovação, sujeira pesada, enxágue, secagem e acabamento.",
     icon: Wrench,
     lessons: [
+      {
+        key: "motor-novo-01",
+        title: "Limpeza de motor — Etapa 1",
+        fileName: "limpezza motor 01.mp4",
+        driveId: "1sbV7TAZOHA3a1xDUXCciz9j20MMn61jc",
+        description:
+          "Primeira etapa prática da nova sequência de limpeza de motor enviada para o curso.",
+      },
+      {
+        key: "motor-novo-02",
+        title: "Limpeza de motor — Etapa 2",
+        fileName: "limpezza motor 02.mp4",
+        driveId: "1UoiEOoQRnqpuCZI3ZlZB7wXG5QWVJZ0d",
+        description:
+          "Continuação do processo de limpeza do motor e das áreas próximas ao compartimento.",
+      },
+      {
+        key: "motor-novo-03",
+        title: "Limpeza de motor — Etapa 3",
+        fileName: "limpezza motor 03.mp4",
+        driveId: "1nI6U6XN-cNpxq22GECTBY_9gbgLOqu7o",
+        description:
+          "Terceira etapa da sequência prática de limpeza e acabamento do compartimento do motor.",
+      },
       {
         key: "motor-detalhado",
         title: "Limpeza detalhada de motor",
@@ -195,7 +319,7 @@ const modules: Module[] = [
   },
   {
     key: "polimento",
-    number: "04",
+    number: "06",
     title: "Polimento e correção de pintura",
     description:
       "Treino de politriz, corte, refino, lustro, preparação da superfície e demonstrações de antes e depois reunidos no mesmo processo.",
@@ -254,7 +378,7 @@ const modules: Module[] = [
   },
   {
     key: "protecao-pintura",
-    number: "05",
+    number: "07",
     title: "Proteção e acabamento da pintura",
     description:
       "Descontaminação, enceramento, vitrificação, remoção do excesso e prova visual da repelência.",
@@ -296,7 +420,7 @@ const modules: Module[] = [
   },
   {
     key: "vidros",
-    number: "06",
+    number: "08",
     title: "Vidros e repelência de chuva",
     description:
       "Aplicações específicas para o para-brisa que funcionam como serviço adicional dentro do lava jato.",
@@ -322,7 +446,7 @@ const modules: Module[] = [
   },
   {
     key: "farois",
-    number: "07",
+    number: "09",
     title: "Restauração de faróis",
     description:
       "A sequência completa de correção: remoção das marcas, progressão das lixas e restauração química final.",
@@ -354,7 +478,7 @@ const modules: Module[] = [
       },
     ],
   },
-];
+]
 
 const allLessons = modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleKey: module.key })),
