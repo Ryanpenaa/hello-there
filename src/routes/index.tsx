@@ -595,11 +595,6 @@ function Index() {
               </span>
               <span className="text-white/30">•</span>
               <span className="text-white/45">{selectedModule.title}</span>
-              {selectedLesson.duplicate && (
-                <span className="rounded-full bg-amber-400/10 px-3 py-1.5 text-amber-300">
-                  arquivo duplicado
-                </span>
-              )}
             </div>
 
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-black/30">
