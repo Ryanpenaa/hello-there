@@ -732,17 +732,6 @@ function CourseSidebar({
 }) {
   return (
     <div>
-      <div className="mb-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-        <div className="flex items-center gap-2">
-          <PlayCircle className="h-4 w-4 text-blue-400" />
-          <p className="text-sm font-bold">Conteúdo do curso</p>
-        </div>
-        <p className="mt-2 text-xs leading-5 text-white/40">
-          Todos os 29 arquivos do Drive estão aqui. Uma das aulas está marcada como
-          duplicada porque o próprio Drive possui duas cópias idênticas.
-        </p>
-      </div>
-
       <div className="space-y-2">
         {modules.map((module) => {
           const Icon = module.icon;
