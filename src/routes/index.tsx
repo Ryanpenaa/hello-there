@@ -8,6 +8,7 @@ import {
   Droplets,
   Gauge,
   ListVideo,
+  MessageCircle,
   Menu,
   Paintbrush,
   PlayCircle,
@@ -27,6 +28,13 @@ export const Route = createFileRoute("/")({
         content:
           "Área de membros do Lava Jato do Diogo com os vídeos organizados por processo.",
       },
+      { property: "og:title", content: "Lava Jato do Diogo | Área de Membros" },
+      {
+        property: "og:description",
+        content: "Acesse as aulas e acompanhe os processos do curso Lava Jato do Diogo.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Index,
@@ -489,22 +497,29 @@ function getPreviewUrl(driveId: string) {
 }
 
 function Index() {
-  const [selectedKey, setSelectedKey] = useState(allLessons[0].key);
+  const firstModule = modules[0];
+  const firstLesson = allLessons[0];
+
+  if (!firstModule || !firstLesson) {
+    return null;
+  }
+
+  const [selectedKey, setSelectedKey] = useState(firstLesson.key);
   const [openModules, setOpenModules] = useState<string[]>([
-    modules[0].key,
-    modules[1].key,
+    firstModule.key,
+    modules[1]?.key ?? firstModule.key,
   ]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [completed, setCompleted] = useState<string[]>([]);
 
   const selectedLesson = useMemo(
-    () => allLessons.find((lesson) => lesson.key === selectedKey) ?? allLessons[0],
-    [selectedKey],
+    () => allLessons.find((lesson) => lesson.key === selectedKey) ?? firstLesson,
+    [firstLesson, selectedKey],
   );
 
   const selectedModule = useMemo(
-    () => modules.find((module) => module.key === selectedLesson.moduleKey) ?? modules[0],
-    [selectedLesson.moduleKey],
+    () => modules.find((module) => module.key === selectedLesson.moduleKey) ?? firstModule,
+    [firstModule, selectedLesson.moduleKey],
   );
 
   const lessonNumber =
@@ -589,6 +604,25 @@ function Index() {
 
         <section className="min-w-0 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
           <div className="mx-auto max-w-5xl">
+            <a
+              href="https://chat.whatsapp.com/FxE3n0Wr8nR9jsmlBd412m?s=cl&p=i&mlu=4&ilr=4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mb-5 flex items-center gap-3 rounded-xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-emerald-100 transition hover:border-emerald-400/35 hover:bg-emerald-500/15 sm:px-5"
+              aria-label="Entrar no grupo de alunos no WhatsApp"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500 text-white">
+                <MessageCircle className="h-5 w-5" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-black">Grupo dos alunos no WhatsApp</span>
+                <span className="mt-0.5 block text-xs text-emerald-100/65">
+                  Entre no grupo para acompanhar avisos e conversar com a turma.
+                </span>
+              </span>
+              <span className="shrink-0 text-xs font-bold text-emerald-300">Entrar</span>
+            </a>
+
             <div className="mb-5 flex flex-wrap items-center gap-2 text-xs font-semibold">
               <span className="rounded-full bg-blue-500/10 px-3 py-1.5 text-blue-300">
                 Módulo {selectedModule.number}
